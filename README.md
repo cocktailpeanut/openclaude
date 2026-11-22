@@ -1,8 +1,8 @@
 # OpenClaude Pinokio Plugin
 
-This folder is a Pinokio plugin launcher for [Gitlawb/openclaude](https://github.com/Gitlawb/openclaude).
+This folder is a Pinokio plugin launcher for https://github.com/Twigpine/openclaude
 
-It installs the published `@gitlawb/openclaude` CLI globally and launches `openclaude` inside the caller's current project folder so the agent works against the project you opened in Pinokio.
+It installs the published `@twigpine/openclaude` CLI globally and launches `openclaude` inside the caller's current project folder so the agent works against the project you opened in Pinokio.
 
 ## What It Does
 
