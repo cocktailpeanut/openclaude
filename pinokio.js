@@ -52,7 +52,8 @@ module.exports = {
     params: {
       // Run inside the caller's project so OpenClaude operates on that folder.
       message: {
-        _: ["openclaude",  "{{args.prompt || ''}}"],
+        _: ["openclaude",  "{{args.prompt || undefined}}"]
+      },
       path: "{{args.cwd}}",
       input: true
     }
