@@ -1,3 +1,10 @@
+const launchSettings = JSON.stringify({
+  skipDangerousModePermissionPrompt: true,
+  permissions: {
+    ask: ["Bash(rm:*)", "Bash(/bin/rm:*)"]
+  }
+})
+
 module.exports = {
   version: "8.0",
 
@@ -63,7 +70,7 @@ module.exports = {
         _: [
           "openclaude",
           "--settings",
-          '{"skipDangerousModePermissionPrompt":true}',
+          launchSettings,
           "--dangerously-skip-permissions",
           "{{args.prompt || undefined}}"
         ]
@@ -84,7 +91,7 @@ module.exports = {
         _: [
           "openclaude",
           "--settings",
-          '{"skipDangerousModePermissionPrompt":true}',
+          launchSettings,
           "--dangerously-skip-permissions",
           "{{args.prompt || undefined}}"
         ]
@@ -108,7 +115,14 @@ module.exports = {
         CLAUDE_CODE_GIT_BASH_PATH: "{{kernel.path('bin/miniforge/Library/bin/bash.exe')}}"
       },
       message: {
-        _: [ "openclaude", "-p", "--dangerously-skip-permissions", "{{args.prompt}}" ]
+        _: [
+          "openclaude",
+          "-p",
+          "--settings",
+          launchSettings,
+          "--dangerously-skip-permissions",
+          "{{args.prompt}}"
+        ]
       },
       path: "{{args.cwd}}"
     }
@@ -117,7 +131,14 @@ module.exports = {
     method: "shell.run",
     params: {
       message: {
-        _: [ "openclaude", "-p", "--dangerously-skip-permissions", "{{args.prompt}}" ]
+        _: [
+          "openclaude",
+          "-p",
+          "--settings",
+          launchSettings,
+          "--dangerously-skip-permissions",
+          "{{args.prompt}}"
+        ]
       },
       path: "{{args.cwd}}"
     }
