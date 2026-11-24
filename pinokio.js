@@ -47,15 +47,63 @@ module.exports = {
   }],
 
   run: [{
+    when: "{{platform === 'win32'}}",
     id: "run",
     method: "shell.run",
     params: {
-      // Run inside the caller's project so OpenClaude operates on that folder.
+      shell: "bash",
+      conda: {
+        skip: true
+      },
+      env: {
+        CLAUDE_CODE_GIT_BASH_PATH: "{{kernel.path('bin/miniforge/Library/bin/bash.exe')}}"
+      },
       message: {
         _: ["openclaude",  "{{args.prompt || undefined}}"]
       },
       path: "{{args.cwd}}",
-      input: true
+      input: true,
+      buffer: 1024
+    }
+  }, {
+    when: "{{platform !== 'win32'}}",
+    id: "run",
+    method: "shell.run",
+    params: {
+      message: {
+        _: ["openclaude",  "{{args.prompt || undefined}}"]
+      },
+      path: "{{args.cwd}}",
+      input: true,
+      buffer: 1024
+    }
+  }],
+  // The same agent's one-off command: it does the request, prints its answer and
+  // ends. It is started with permission to act, since nobody is there to give it.
+  job: [{
+    when: "{{platform === 'win32'}}",
+    method: "shell.run",
+    params: {
+      shell: "bash",
+      conda: {
+        skip: true
+      },
+      env: {
+        CLAUDE_CODE_GIT_BASH_PATH: "{{kernel.path('bin/miniforge/Library/bin/bash.exe')}}"
+      },
+      message: {
+        _: [ "openclaude", "-p", "--dangerously-skip-permissions", "{{args.prompt}}" ]
+      },
+      path: "{{args.cwd}}"
+    }
+  }, {
+    when: "{{platform !== 'win32'}}",
+    method: "shell.run",
+    params: {
+      message: {
+        _: [ "openclaude", "-p", "--dangerously-skip-permissions", "{{args.prompt}}" ]
+      },
+      path: "{{args.cwd}}"
     }
   }]
 }
