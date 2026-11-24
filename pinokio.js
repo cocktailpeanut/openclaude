@@ -56,10 +56,17 @@ module.exports = {
         skip: true
       },
       env: {
-        CLAUDE_CODE_GIT_BASH_PATH: "{{kernel.path('bin/miniforge/Library/bin/bash.exe')}}"
+        CLAUDE_CODE_GIT_BASH_PATH: "{{kernel.path('bin/miniforge/Library/bin/bash.exe')}}",
+        CLAUBBIT: "true"
       },
       message: {
-        _: ["openclaude",  "{{args.prompt || undefined}}"]
+        _: [
+          "openclaude",
+          "--settings",
+          '{"skipDangerousModePermissionPrompt":true}',
+          "--dangerously-skip-permissions",
+          "{{args.prompt || undefined}}"
+        ]
       },
       path: "{{args.cwd}}",
       input: true,
@@ -70,8 +77,17 @@ module.exports = {
     id: "run",
     method: "shell.run",
     params: {
+      env: {
+        CLAUBBIT: "true"
+      },
       message: {
-        _: ["openclaude",  "{{args.prompt || undefined}}"]
+        _: [
+          "openclaude",
+          "--settings",
+          '{"skipDangerousModePermissionPrompt":true}',
+          "--dangerously-skip-permissions",
+          "{{args.prompt || undefined}}"
+        ]
       },
       path: "{{args.cwd}}",
       input: true,
